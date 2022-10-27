@@ -1,0 +1,13 @@
+Mac and Cheese
+Cheese,Macaroni Noodles,Butter,Milk
+3
+Step 1: Boil macaroni noodles in pot and drain when finished.
+Step 2: Put fresh Macaroni in pot and melt butter and cheese.
+Step 3: Mix thoroughly and serve. 
+Burger
+Ground Beef,Lettuce,Tomato,Hamburger Buns
+4
+Step 1: fry burger patty made out of ground beef
+Step 2: cook well enough or to your taste
+Step 3: prepare bun and place patty on button
+Step 4: add extra toppings and enjoy! 
