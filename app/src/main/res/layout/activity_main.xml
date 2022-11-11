@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingStart="20dp"
     tools:context=".MainActivity">
 
 
@@ -11,5 +12,18 @@
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+
+    <Button
+        android:id="@+id/filledButton"
+        android:layout_width="340dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="20dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:text="Filled Button"
+        android:textColor="@color/black"
+        app:backgroundTint="@color/purple_200"
+        app:shapeAppearance="@style/ShapeAppearanceOverlay.Material3.FloatingActionButton" />
 
 </RelativeLayout>

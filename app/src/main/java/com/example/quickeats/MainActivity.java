@@ -8,23 +8,31 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ListView;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
-
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class MainActivity extends AppCompatActivity implements IngListener {
 
     RecyclerView recycler_view;
     IngAdapter adapter;
-    ArrayList<String> ingList;
+    ArrayList<String> arrayList;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
+        Button btn = findViewById(R.id.filledButton);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ShowArray(onIngChange(arrayList).toString());
+            }
+        });
         recycler_view = findViewById(R.id.recycler_view);
         setRecyclerView();
     }
@@ -59,14 +67,14 @@ public class MainActivity extends AppCompatActivity implements IngListener {
     }
 
     private ArrayList<String> getIngData() {
-        ArrayList<String> arrayList = new ArrayList<>();
+        arrayList = new ArrayList<>();
         arrayList.add("Tomato");
-        arrayList.add("Broccoli");
-        arrayList.add("Eggs");
-        arrayList.add("Milk");
-        arrayList.add("Chicken");
         arrayList.add("Beef");
-
+        arrayList.add("Carrot");
+        arrayList.add("Apple");
+        arrayList.add("Kale");
+        arrayList.add("Chicken");
+        arrayList.add("Milk");
         return arrayList;
     }
 
@@ -79,8 +87,15 @@ public class MainActivity extends AppCompatActivity implements IngListener {
     }
 
 
-    @Override
-    public void onIngChange(ArrayList<String> arrayList) {
-        Toast.makeText(this, arrayList.toString(), Toast.LENGTH_SHORT).show();
+    public ArrayList<String> onIngChange(ArrayList<String> arrayList) {
+        ArrayList<String> items = new ArrayList<>();
+        for(String selected: arrayList) {
+            items.addAll(Collections.singleton(selected));
+        }
+        return items;
     }
+    private void ShowArray(String str) {
+        Toast.makeText(this, str, Toast.LENGTH_SHORT).show();
+    }
+
 }
