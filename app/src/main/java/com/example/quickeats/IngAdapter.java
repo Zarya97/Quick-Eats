@@ -15,24 +15,24 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Locale;
 
 public class IngAdapter extends RecyclerView.Adapter<IngAdapter.ViewHolder> implements Filterable {
 
     View view;
 
     Context context;
-    ArrayList<String> arrayList;
+    ArrayList<String> getArrayList;
     List<String> ingList;
-
     IngListener ingListener;
 
     ArrayList<String> arrayList_0 = new ArrayList<>();
 
     public IngAdapter(Context context, ArrayList<String> arrayList, IngListener ingListener) {
         this.context = context;
-        this.arrayList = arrayList;
+        this.getArrayList = arrayList;
         this.ingListener = ingListener;
-        this.ingList = new ArrayList<>(arrayList);
+        this.ingList = arrayList;
     }
 
     public View getView() {
@@ -48,15 +48,15 @@ public class IngAdapter extends RecyclerView.Adapter<IngAdapter.ViewHolder> impl
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
-        if (arrayList != null && arrayList.size() > 0) {
-            holder.check_box.setText(arrayList.get(position));
+        if (getArrayList != null && getArrayList.size() > 0) {
+            holder.check_box.setText((CharSequence) getArrayList.get(position));
             holder.check_box.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     if (holder.check_box.isChecked()) {
-                        arrayList_0.add(arrayList.get(position));
+                        arrayList_0.add(getArrayList.get(position));
                     } else {
-                        arrayList_0.remove(arrayList.get(position));
+                        arrayList_0.remove(getArrayList.get(position));
                     }
                     ingListener.onIngChange(arrayList_0);
                 }
@@ -67,7 +67,7 @@ public class IngAdapter extends RecyclerView.Adapter<IngAdapter.ViewHolder> impl
 
     @Override
     public int getItemCount() {
-        return arrayList.size();
+        return getArrayList.size();
     }
 
     @Override
@@ -81,25 +81,30 @@ public class IngAdapter extends RecyclerView.Adapter<IngAdapter.ViewHolder> impl
         protected FilterResults performFiltering(CharSequence charSequence) {
 
 
-            List<String> filteredList = new ArrayList<>();
+            FilterResults filterResults = new FilterResults();
             if (charSequence.toString().isEmpty()) {
-                filteredList.addAll(ingList);
+                filterResults.values = ingList;
+                filterResults.count = ingList.size();
             } else {
+                String searchIng = charSequence.toString().toLowerCase();
+                List<String> filtered = new ArrayList<>();
                 for (String ingredient: ingList) {
                     if (ingredient.toLowerCase().contains(charSequence.toString().toLowerCase())) {
-                        filteredList.add(ingredient);
+                        filtered.add(ingredient);
                     }
                 }
+                filterResults.values = filtered;
+                filterResults.count = filtered.size();
             }
-            FilterResults filterResults = new FilterResults();
-            filterResults.values = filteredList;
+
+
             return filterResults;
         }
 
         @Override
         protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
-            ingList.clear();
-            ingList.addAll((Collection<? extends String>) filterResults.values);
+            //ingList.clear();
+            getArrayList = (ArrayList<String>) filterResults.values;
             notifyDataSetChanged();
 
         }

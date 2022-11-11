@@ -8,19 +8,17 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.CheckBox;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements IngListener{
+public class MainActivity extends AppCompatActivity implements IngListener {
 
     RecyclerView recycler_view;
     IngAdapter adapter;
-    ArrayAdapter<String> arrayAdapter;
+    ArrayList<String> ingList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,7 +26,6 @@ public class MainActivity extends AppCompatActivity implements IngListener{
 
 
         recycler_view = findViewById(R.id.recycler_view);
-
         setRecyclerView();
     }
 
@@ -51,7 +48,6 @@ public class MainActivity extends AppCompatActivity implements IngListener{
 
             @Override
             public boolean onQueryTextChange(String newText) {
-
                 adapter.getFilter().filter(newText);
 
                 return false;
@@ -81,6 +77,7 @@ public class MainActivity extends AppCompatActivity implements IngListener{
         adapter = new IngAdapter(this, getIngData(), this);
         recycler_view.setAdapter(adapter);
     }
+
 
     @Override
     public void onIngChange(ArrayList<String> arrayList) {
