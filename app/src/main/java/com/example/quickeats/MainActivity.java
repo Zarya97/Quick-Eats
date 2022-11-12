@@ -6,15 +6,23 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class MainActivity extends AppCompatActivity implements IngListener {
+public class MainActivity extends AppCompatActivity implements IngListener{
 
     RecyclerView recycler_view;
     IngAdapter adapter;
@@ -25,7 +33,6 @@ public class MainActivity extends AppCompatActivity implements IngListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         Button btn = findViewById(R.id.filledButton);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,20 +75,18 @@ public class MainActivity extends AppCompatActivity implements IngListener {
 
     private ArrayList<String> getIngData() {
         arrayList = new ArrayList<>();
-        arrayList.add("Tomato");
-        arrayList.add("Beef");
-        arrayList.add("Carrot");
-        arrayList.add("Apple");
-        arrayList.add("Kale");
-        arrayList.add("Chicken");
-        arrayList.add("Milk");
-        arrayList.add("Spinach");
-        arrayList.add("Egg");
-        arrayList.add("Banana");
-        arrayList.add("Onion");
-        arrayList.add("Garlic");
-        arrayList.add("Flour");
-        arrayList.add("Yogurt");
+        InputStream is = getResources().openRawResource(R.raw.ingredients);
+        BufferedReader reader = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8));
+        String line = "";
+        try {
+            while ((line = reader.readLine()) != null){
+                arrayList.add(line);
+            }
+        }
+        catch (IOException e) {
+            Log.wtf("MyActivity", "Error reading ingredients", e);
+            e.printStackTrace();
+        }
         return arrayList;
     }
 

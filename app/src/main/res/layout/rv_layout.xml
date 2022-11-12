@@ -20,7 +20,7 @@
 
         <CheckBox
             android:id="@+id/check_box"
-            android:layout_width="match_parent"
+            android:layout_width="400dp"
             android:layout_height="match_parent"
             android:checked="false" />
     </androidx.cardview.widget.CardView>
