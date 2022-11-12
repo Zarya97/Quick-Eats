@@ -101,9 +101,10 @@ public class IngAdapter extends RecyclerView.Adapter<IngAdapter.ViewHolder> impl
             return filterResults;
         }
 
+        @SuppressLint("NotifyDataSetChanged")
         @Override
         protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
-            //ingList.clear();
+            //getArrayList.clear();
             getArrayList = (ArrayList<String>) filterResults.values;
             notifyDataSetChanged();
 

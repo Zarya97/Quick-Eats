@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity implements IngListener {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ShowArray(onIngChange(arrayList).toString());
+                ShowArray(onIngChange(adapter.arrayList_0).toString());
             }
         });
         recycler_view = findViewById(R.id.recycler_view);
@@ -75,6 +75,13 @@ public class MainActivity extends AppCompatActivity implements IngListener {
         arrayList.add("Kale");
         arrayList.add("Chicken");
         arrayList.add("Milk");
+        arrayList.add("Spinach");
+        arrayList.add("Egg");
+        arrayList.add("Banana");
+        arrayList.add("Onion");
+        arrayList.add("Garlic");
+        arrayList.add("Flour");
+        arrayList.add("Yogurt");
         return arrayList;
     }
 

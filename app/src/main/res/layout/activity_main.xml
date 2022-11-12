@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingStart="20dp"
+    android:paddingStart="0dp"
+    android:background="@drawable/background"
     tools:context=".MainActivity">
 
 
@@ -15,15 +16,16 @@
 
     <Button
         android:id="@+id/filledButton"
-        android:layout_width="340dp"
-        android:layout_height="wrap_content"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="20dp"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        android:text="Filled Button"
+        android:layout_marginEnd="28dp"
+        android:layout_marginBottom="30dp"
+        android:backgroundTint="#8BFF00"
+        android:paddingLeft="40dp"
+        android:paddingRight="40dp"
+        android:text="@string/submit1"
         android:textColor="@color/black"
-        app:backgroundTint="@color/purple_200"
-        app:shapeAppearance="@style/ShapeAppearanceOverlay.Material3.FloatingActionButton" />
-
+        app:shapeAppearance="@style/ShapeAppearance.Material3.Corner.Medium" />
 </RelativeLayout>
