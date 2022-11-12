@@ -1,10 +1,12 @@
 package com.example.quickeats;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -33,11 +35,21 @@ public class MainActivity extends AppCompatActivity implements IngListener{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Button btn = findViewById(R.id.filledButton);
-        btn.setOnClickListener(new View.OnClickListener() {
+        Button submit = findViewById(R.id.submit);
+        submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 ShowArray(onIngChange(adapter.arrayList_0).toString());
+            }
+        });
+        Button clear = findViewById(R.id.clear);
+        clear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                adapter.arrayList_0.clear();
+                adapter = null;
+                setRecyclerView();
+                ShowArray("Selection Cleared");
             }
         });
         recycler_view = findViewById(R.id.recycler_view);
@@ -55,8 +67,6 @@ public class MainActivity extends AppCompatActivity implements IngListener{
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-
-                //adapter.getFilter().filter(newText);
 
                 return false;
             }
@@ -77,7 +87,7 @@ public class MainActivity extends AppCompatActivity implements IngListener{
         arrayList = new ArrayList<>();
         InputStream is = getResources().openRawResource(R.raw.ingredients);
         BufferedReader reader = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8));
-        String line = "";
+        String line;
         try {
             while ((line = reader.readLine()) != null){
                 arrayList.add(line);

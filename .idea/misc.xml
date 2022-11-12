@@ -4,9 +4,12 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/zarya/AndroidStudioProjects/QuickEats/app/src/main/res/drawable/ic_launcher_background.xml" value="0.22" />
+        <entry key="..\:/Users/zarya/AndroidStudioProjects/QuickEats/app/src/main/res/font/font.xml" value="0.35052083333333334" />
+        <entry key="..\:/Users/zarya/AndroidStudioProjects/QuickEats/app/src/main/res/font/oswald_medium.xml" value="0.35052083333333334" />
+        <entry key="..\:/Users/zarya/AndroidStudioProjects/QuickEats/app/src/main/res/font/ptserif.xml" value="0.1787037037037037" />
         <entry key="..\:/Users/zarya/AndroidStudioProjects/QuickEats/app/src/main/res/layout/activity_get_recipes.xml" value="0.1" />
-        <entry key="..\:/Users/zarya/AndroidStudioProjects/QuickEats/app/src/main/res/layout/activity_main.xml" value="0.33827160493827163" />
-        <entry key="..\:/Users/zarya/AndroidStudioProjects/QuickEats/app/src/main/res/layout/rv_layout.xml" value="0.20984455958549222" />
+        <entry key="..\:/Users/zarya/AndroidStudioProjects/QuickEats/app/src/main/res/layout/activity_main.xml" value="0.45" />
+        <entry key="..\:/Users/zarya/AndroidStudioProjects/QuickEats/app/src/main/res/layout/rv_layout.xml" value="0.2597173144876325" />
         <entry key="..\:/Users/zarya/AndroidStudioProjects/QuickEats/app/src/main/res/menu/menu.xml" value="0.32135416666666666" />
       </map>
     </option>

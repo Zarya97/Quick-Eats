@@ -12,16 +12,23 @@
         android:layout_marginTop="10dp"
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="10dp"
-        android:backgroundTint="#D9F4F2"
+        android:backgroundTint="#B18FEF"
         android:clickable="false"
         app:cardCornerRadius="15dp"
         app:cardElevation="7dp">
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/board"/>
+
+
 
         <CheckBox
             android:id="@+id/check_box"
-            android:layout_width="400dp"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:fontFamily="@font/oswald_med"
             android:checked="false" />
     </androidx.cardview.widget.CardView>
 

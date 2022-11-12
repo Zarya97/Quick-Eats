@@ -65,6 +65,7 @@ public class IngAdapter extends RecyclerView.Adapter<IngAdapter.ViewHolder> impl
         }
     }
 
+
     @Override
     public int getItemCount() {
         return getArrayList.size();
