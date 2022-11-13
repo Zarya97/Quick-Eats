@@ -23,8 +23,9 @@ public class IngAdapter extends RecyclerView.Adapter<IngAdapter.ViewHolder> impl
 
     Context context;
     ArrayList<String> getArrayList;
-    List<String> ingList;
+    ArrayList<String> ingList;
     IngListener ingListener;
+
 
     ArrayList<String> arrayList_0 = new ArrayList<>();
 
@@ -32,7 +33,7 @@ public class IngAdapter extends RecyclerView.Adapter<IngAdapter.ViewHolder> impl
         this.context = context;
         this.getArrayList = arrayList;
         this.ingListener = ingListener;
-        this.ingList = arrayList;
+        this.ingList = new ArrayList<>(arrayList);
     }
 
     public View getView() {
@@ -61,7 +62,6 @@ public class IngAdapter extends RecyclerView.Adapter<IngAdapter.ViewHolder> impl
                     ingListener.onIngChange(arrayList_0);
                 }
             });
-
         }
     }
 
@@ -76,7 +76,7 @@ public class IngAdapter extends RecyclerView.Adapter<IngAdapter.ViewHolder> impl
         return filter;
     }
 
-    Filter filter = new Filter () {
+    final Filter filter = new Filter() {
 
         @Override
         protected FilterResults performFiltering(CharSequence charSequence) {
@@ -89,7 +89,7 @@ public class IngAdapter extends RecyclerView.Adapter<IngAdapter.ViewHolder> impl
             } else {
                 String searchIng = charSequence.toString().toLowerCase();
                 List<String> filtered = new ArrayList<>();
-                for (String ingredient: ingList) {
+                for (String ingredient : ingList) {
                     if (ingredient.toLowerCase().contains(charSequence.toString().toLowerCase())) {
                         filtered.add(ingredient);
                     }
@@ -105,8 +105,9 @@ public class IngAdapter extends RecyclerView.Adapter<IngAdapter.ViewHolder> impl
         @SuppressLint("NotifyDataSetChanged")
         @Override
         protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
-            //getArrayList.clear();
-            getArrayList = (ArrayList<String>) filterResults.values;
+            getArrayList.clear();
+            getArrayList.addAll((Collection<? extends String>) filterResults.values);
+            ingListener.onIngChange(arrayList_0);
             notifyDataSetChanged();
 
         }

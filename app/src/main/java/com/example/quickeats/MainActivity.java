@@ -97,6 +97,16 @@ public class MainActivity extends AppCompatActivity implements IngListener{
             Log.wtf("MyActivity", "Error reading ingredients", e);
             e.printStackTrace();
         }
+        // Debugging Array
+        /*arrayList.add("Tomato");
+        arrayList.add("Milk");
+        arrayList.add("Beef");
+        arrayList.add("Chicken");
+        arrayList.add("Sauce");
+        arrayList.add("Whatever");
+        arrayList.add("Powder");
+        arrayList.add("Mayo");
+        arrayList.add("Spice");*/
         return arrayList;
     }
 
