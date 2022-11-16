@@ -22,10 +22,14 @@ public class IngClass {
 	public int getID() {
 		return ID;
 	}
-    
-    public boolean getCheck() {
+    public void setChecked(boolean Check) {
+        this.checked = Check;
+    }
+
+    public boolean getChecked() {
         return checked;
     }
+
 
     public String getText() {
         return text;

@@ -17,6 +17,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
 
+
+
 public class IngAdapter extends RecyclerView.Adapter<IngAdapter.ViewHolder> implements Filterable {
 
     View view;
@@ -46,6 +48,7 @@ public class IngAdapter extends RecyclerView.Adapter<IngAdapter.ViewHolder> impl
         view = LayoutInflater.from(context).inflate(R.layout.rv_layout,parent, false);
         return new ViewHolder(view);
     }
+
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
@@ -113,8 +116,9 @@ public class IngAdapter extends RecyclerView.Adapter<IngAdapter.ViewHolder> impl
         }
     };
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
 
+
+    public class ViewHolder extends RecyclerView.ViewHolder {
         CheckBox check_box;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);

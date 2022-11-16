@@ -77,8 +77,8 @@ public class MainActivity extends AppCompatActivity implements IngListener{
 
                 return false;
             }
-        });
 
+        });
 
         return super.onCreateOptionsMenu(menu);
     }
