@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
+import android.content.res.AssetManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -14,8 +15,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
+import android.content.Context;
 
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -23,18 +26,31 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.io.File;
+import java.util.Scanner;
+import java.io.DataInputStream;
 
-public class MainActivity extends AppCompatActivity implements IngListener{
+public class MainActivity  extends AppCompatActivity implements IngListener {
+
 
     RecyclerView recycler_view;
     IngAdapter adapter;
     ArrayList<String> arrayList;
+    ArrayList<IngClass> ingList = new ArrayList<>();
+    ArrayList<Recipe> recipeList = new ArrayList<>();   // ArrayList used to hold recipe objects
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        makeIngObjects(ingList);
+
+        recipeList = createRecipeObjects();
+
+        System.out.println(recipeList.size());
+        recipeList.get(27).printRecipe();
         Button submit = findViewById(R.id.submit);
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,11 +105,15 @@ public class MainActivity extends AppCompatActivity implements IngListener{
         BufferedReader reader = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8));
         String line;
         try {
-            while ((line = reader.readLine()) != null){
+            int count = 0;
+            while ((line = reader.readLine()) != null) {
+                String name = line;
+                int ID = count;
+                IngClass ingredient = new IngClass(name, ID);
+                ingList.add(ingredient);
                 arrayList.add(line);
             }
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             Log.wtf("MyActivity", "Error reading ingredients", e);
             e.printStackTrace();
         }
@@ -121,13 +141,50 @@ public class MainActivity extends AppCompatActivity implements IngListener{
 
     public ArrayList<String> onIngChange(ArrayList<String> arrayList) {
         ArrayList<String> items = new ArrayList<>();
-        for(String selected: arrayList) {
+        for (String selected : arrayList) {
             items.addAll(Collections.singleton(selected));
         }
         return items;
     }
+
     private void ShowArray(String str) {
         Toast.makeText(this, str, Toast.LENGTH_SHORT).show();
     }
 
+    // CREATES RECIPE OBJECTS
+    private ArrayList<Recipe> createRecipeObjects() {
+        ArrayList<Recipe> recipes = new ArrayList<>();
+        DataInputStream is = new DataInputStream(getResources().openRawResource(R.raw.recipe_list));
+        Scanner recipeList = new Scanner(is);
+
+        while (recipeList.hasNext()) { // While input file has another line to read
+
+            Recipe recipe = new Recipe(ingList, recipeList); // Creates new recipe object
+            recipes.add(recipe); // Adds the recipe object to the Recipes ArrayList
+        }
+        recipeList.close(); // Closes IO stream
+
+
+        return recipes;
+    }
+
+    private void makeIngObjects(ArrayList<IngClass> allIng) {
+        InputStream is = getResources().openRawResource(R.raw.ingredients);
+        BufferedReader reader = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8));
+        String line;
+        try {
+            int count = 0;
+            while ((line = reader.readLine()) != null) {
+                String name = line;
+                int ID = count;
+                IngClass ingredient = new IngClass(name, ID);
+                allIng.add(ingredient);
+            }
+        } catch (IOException e) {
+            Log.wtf("MyActivity", "Error reading ingredients", e);
+            e.printStackTrace();
+
+        }
+
+    }
 }
