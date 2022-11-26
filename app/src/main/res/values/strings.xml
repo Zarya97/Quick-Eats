@@ -5,4 +5,6 @@
     <string name="filled_button">Filled button</string>
     <string name="submit1">Submit</string>
     <string name="Clear">Clear</string>
+        <string name="seperator">
+        \n*******************************************\n</string>
 </resources>
