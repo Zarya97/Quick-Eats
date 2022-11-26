@@ -1,6 +1,9 @@
 package com.example.quickeats;
 
-public class IngClass {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class IngClass implements Parcelable {
     private boolean checked;
     private String text;
     private int ID;
@@ -10,6 +13,24 @@ public class IngClass {
         this.text = text;
         this.ID = ID;
     }
+
+    protected IngClass(Parcel in) {
+        checked = in.readByte() != 0;
+        text = in.readString();
+        ID = in.readInt();
+    }
+
+    public static final Creator<IngClass> CREATOR = new Creator<IngClass>() {
+        @Override
+        public IngClass createFromParcel(Parcel in) {
+            return new IngClass(in);
+        }
+
+        @Override
+        public IngClass[] newArray(int size) {
+            return new IngClass[size];
+        }
+    };
 
     public void setText(String text) {
 		this.text = text;
@@ -33,5 +54,17 @@ public class IngClass {
 
     public String getText() {
         return text;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeByte((byte) (checked ? 1 : 0));
+        parcel.writeString(text);
+        parcel.writeInt(ID);
     }
 }

@@ -7,8 +7,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.content.res.AssetManager;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -30,13 +32,15 @@ import java.io.File;
 import java.util.Scanner;
 import java.io.DataInputStream;
 
-public class MainActivity  extends AppCompatActivity implements IngListener {
+public class MainActivity extends AppCompatActivity implements IngListener {
 
+
+    // adapter.arrayList_0 USED FOR COMPARE INGREDIENT METHOD
 
     RecyclerView recycler_view;
     IngAdapter adapter;
     ArrayList<String> arrayList;
-    ArrayList<IngClass> ingList = new ArrayList<>();
+    ArrayList<IngClass> ingList = new ArrayList<>();     // ArrayList that holds the ingredient Objects
     ArrayList<Recipe> recipeList = new ArrayList<>();   // ArrayList used to hold recipe objects
 
 
@@ -45,33 +49,34 @@ public class MainActivity  extends AppCompatActivity implements IngListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        makeIngObjects(ingList);
+        recycler_view = findViewById(R.id.recycler_view);
+        setRecyclerView();
 
-        recipeList = createRecipeObjects();
+        createRecipeObjects(recipeList); // Method creates objects of recipes and puts them in the Recipe ArrayList
 
-        System.out.println(recipeList.size());
-        recipeList.get(27).printRecipe();
         Button submit = findViewById(R.id.submit);
-        submit.setOnClickListener(new View.OnClickListener() {
+        submit.setOnClickListener(new View.OnClickListener() {      // Event Handler for submit button
             @Override
             public void onClick(View view) {
-                ShowArray(onIngChange(adapter.arrayList_0).toString());
+                if (!adapter.arrayList_0.isEmpty())     // If the ArrayList of selected ingredients is NOT empty
+                    changeActivity();                   // The app will go to the ShowRecipesActivity
+                else {                                   // If it IS empty
+                    String message = new String("Nothing has been Selected");   // A message that tells the user they haven't selected anything
+                    ShowMessage(message);           // The message is displayed to teh user
+                }
             }
         });
         Button clear = findViewById(R.id.clear);
-        clear.setOnClickListener(new View.OnClickListener() {
+        clear.setOnClickListener(new View.OnClickListener() {       // Event handler for clear button
             @Override
-            public void onClick(View view) {
-                adapter.arrayList_0.clear();
-                adapter = null;
-                setRecyclerView();
-                ShowArray("Selection Cleared");
+            public void onClick(View view) {            // WHen the clear button is clicked
+                adapter.arrayList_0.clear();            // Clears the contents of the user selected arraylist
+                adapter = null;                         // the adapter points to nothing
+                setRecyclerView();                      // It resets the recycler view
+                ShowMessage("Selection Cleared");   // Lets the user know their selections were cleared
             }
         });
-        recycler_view = findViewById(R.id.recycler_view);
-        setRecyclerView();
     }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
@@ -99,19 +104,21 @@ public class MainActivity  extends AppCompatActivity implements IngListener {
         return super.onCreateOptionsMenu(menu);
     }
 
-    private ArrayList<String> getIngData() {
+    private ArrayList<String> getIngData(ArrayList<IngClass> ingList) {
         arrayList = new ArrayList<>();
         InputStream is = getResources().openRawResource(R.raw.ingredients);
         BufferedReader reader = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8));
         String line;
         try {
-            int count = 0;
-            while ((line = reader.readLine()) != null) {
-                String name = line;
-                int ID = count;
-                IngClass ingredient = new IngClass(name, ID);
-                ingList.add(ingredient);
-                arrayList.add(line);
+            int count = 0;      // used to initialize ID of ingredient object
+            while ((line = reader.readLine()) != null) {    // while file isn't empty
+                String name = line;         // Reads string from file as name variable
+                int ID = count;             // Count becomes ID for ingredient
+                IngClass ingredient = new IngClass(name, ID);   // creates ingredient object
+                ingList.add(ingredient);    // Adds ingredient object to ingredient array
+                arrayList.add(line);        // Adds string used for ingredient name to a string
+                                            // ArrayList used for check boxes.
+                count += 1;                 //increments count to set ID
             }
         } catch (IOException e) {
             Log.wtf("MyActivity", "Error reading ingredients", e);
@@ -134,7 +141,7 @@ public class MainActivity  extends AppCompatActivity implements IngListener {
 
         recycler_view.setHasFixedSize(true);
         recycler_view.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new IngAdapter(this, getIngData(), this);
+        adapter = new IngAdapter(this, getIngData(ingList), this);
         recycler_view.setAdapter(adapter);
     }
 
@@ -146,45 +153,36 @@ public class MainActivity  extends AppCompatActivity implements IngListener {
         }
         return items;
     }
-
-    private void ShowArray(String str) {
+    // This method just shows the user a message pop up on the screen
+    private void ShowMessage(String str) {
         Toast.makeText(this, str, Toast.LENGTH_SHORT).show();
     }
 
-    // CREATES RECIPE OBJECTS
-    private ArrayList<Recipe> createRecipeObjects() {
-        ArrayList<Recipe> recipes = new ArrayList<>();
-        DataInputStream is = new DataInputStream(getResources().openRawResource(R.raw.recipe_list));
-        Scanner recipeList = new Scanner(is);
+    /****************************************************************************
+     * Method: createRecipeObjects
+     * Description: This method takes an ArrayList<Recipe> parameter and reads data from a file to
+     * create recipe objects and then adds them to the ArrayList
+     * @param recipes : ArrayList of Recipes that holds Recipe Objects
+     ***************************************************************************/
+    private void createRecipeObjects(ArrayList<Recipe> recipes) {
+        DataInputStream is = new DataInputStream(getResources().openRawResource(R.raw.recipe_list));    // Input Stream to create Scanner Object
+        Scanner recipeList = new Scanner(is);           // Scanner object created to read the file
 
-        while (recipeList.hasNext()) { // While input file has another line to read
-
+        while (recipeList.hasNext()) {                       // While recipeList has another line to read
             Recipe recipe = new Recipe(ingList, recipeList); // Creates new recipe object
-            recipes.add(recipe); // Adds the recipe object to the Recipes ArrayList
+            recipes.add(recipe);                             // Adds the recipe object to the Recipes ArrayList
         }
-        recipeList.close(); // Closes IO stream
-
-
-        return recipes;
+        recipeList.close();                                 // Closes IO stream
     }
-
-    private void makeIngObjects(ArrayList<IngClass> allIng) {
-        InputStream is = getResources().openRawResource(R.raw.ingredients);
-        BufferedReader reader = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8));
-        String line;
-        try {
-            int count = 0;
-            while ((line = reader.readLine()) != null) {
-                String name = line;
-                int ID = count;
-                IngClass ingredient = new IngClass(name, ID);
-                allIng.add(ingredient);
-            }
-        } catch (IOException e) {
-            Log.wtf("MyActivity", "Error reading ingredients", e);
-            e.printStackTrace();
-
-        }
-
+    /****************************************************************************
+     * Method: changeActivity
+     * Description: This method jumps to the ShowRecipeActivity. It creates a new Intent, puts data in that
+     * intent so it can be passed to the next activity, and then starts the activity
+     ***************************************************************************/
+private void changeActivity(){
+    Intent intent = new Intent(this,ShowRecipesActivity.class); // Creates new intent to switch to second activity
+    intent.putParcelableArrayListExtra("RecipeList", (ArrayList<? extends Parcelable>)recipeList);  // Passes recipeList through the intent
+    intent.putStringArrayListExtra("ChosenIngr",adapter.arrayList_0);           // passes Select ingredients ArrayList through the intent
+    startActivity(intent);          // Goes to next activity
     }
 }
