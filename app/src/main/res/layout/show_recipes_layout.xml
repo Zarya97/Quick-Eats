@@ -4,10 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/Layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:backgroundTint="#FFFFFF"
+    android:visibility="visible">
 
     <ScrollView
-        android:id="@+id/scrollView2"
+        android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipToPadding="true"
@@ -36,7 +38,9 @@
                 android:id="@+id/messageView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginLeft="5dp"
                 android:layout_marginTop="65dp"
+                android:layout_marginRight="5dp"
                 android:backgroundTint="#00FFFFFF"
                 android:fontFamily="sans-serif"
                 android:lineSpacingExtra="4sp"
@@ -63,29 +67,48 @@
             android:id="@+id/goBack"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
             android:layout_weight="0"
+            android:fontFamily="@font/ptserif_regular"
+            android:singleLine="false"
+            android:soundEffectsEnabled="false"
             android:text="Go Back"
             android:textAlignment="viewStart"
-            android:layout_marginStart="5dp"
             android:textColor="@color/black"
-            android:fontFamily="@font/ptserif_regular"
-            app:shapeAppearance="@style/ShapeAppearance.Material3.Corner.Medium"/>
+            app:shapeAppearance="@style/ShapeAppearance.Material3.Corner.Medium" />
 
         <Space
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"/>
+            android:layout_weight="1" />
+
+        <Button
+            android:id="@+id/random"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:fontFamily="@font/ptserif_regular"
+            android:text="Random"
+            android:textAlignment="textEnd"
+            android:textColor="@color/black"
+            android:visibility="invisible"
+            app:shapeAppearance="@style/ShapeAppearance.Material3.Corner.Medium" />
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
 
         <Button
             android:id="@+id/getRecipes"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="5dp"
+            android:fontFamily="@font/ptserif_regular"
             android:text="Get Recipes"
             android:textAlignment="textEnd"
             android:textColor="@color/black"
-            android:fontFamily="@font/ptserif_regular"
-            app:shapeAppearance="@style/ShapeAppearance.Material3.Corner.Medium"
-            android:layout_marginEnd="5dp"/>
+            app:shapeAppearance="@style/ShapeAppearance.Material3.Corner.Medium" />
     </LinearLayout>
 
 

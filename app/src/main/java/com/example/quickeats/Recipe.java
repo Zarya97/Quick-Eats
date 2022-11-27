@@ -3,7 +3,6 @@ package com.example.quickeats;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
@@ -13,7 +12,7 @@ public class Recipe implements Parcelable {
     private ArrayList<String> ingredientUnits = new ArrayList<>();      // Units for the ingredients used
     private ArrayList<String> steps = new ArrayList<>();                // Private field used to hold steps in a string array
     private ArrayList<IngClass> recipeHas = new ArrayList<>();          // Private field used to identify the ingredients for the recipe
-    private ArrayList<Integer> missingIngr = new ArrayList<>();         // Private field used to hold the ingredients of teh Recipe the user doesn't have
+    private ArrayList<IngClass> missingIngr = new ArrayList<>();         // Private field used to hold the ingredients of teh Recipe the user doesn't have
     private boolean boolSame = false;                                   // Boolean value used to compare if recipe matches with ingredients selected
 
     Recipe(ArrayList<IngClass> ingrAll, Scanner recipeFile) {           // Recipe Constructor that uses all the setters to create recipe objects
@@ -46,7 +45,7 @@ public class Recipe implements Parcelable {
     /****************************************************************************
      * Method: setName
      * Description: takes file and reads String. Sets name field of Recipe object
-     * @param inFile
+     * @param inFile :Scanner
      ***************************************************************************/
     public void setName(Scanner inFile) {
         this.name = inFile.nextLine();                // Sets the name of this recipe Object to the string read from file
@@ -69,7 +68,7 @@ public class Recipe implements Parcelable {
      * Method: setSteps
      * Description: Takes input file and reads number of steps for Recipe. It then iterates through the number of steps
      * 				and reads each one. It then adds it to the steps ArrayList of the recipe Object
-     * @param file
+     * @param file:Scanner
      ***************************************************************************/
     public void setSteps(Scanner file) {
         int numSteps = file.nextInt();          // Reads number of steps for the recipe
@@ -84,7 +83,7 @@ public class Recipe implements Parcelable {
      * Method: setUnits
      * Description: This method takes a scanner file as a parameter, reads a string of units, and splits it
      * into an array using the split method. It then adds each element of the array to the ArrayList.
-     * @param file
+     * @param file:Scanner
      ***************************************************************************/
     public void setUnits(Scanner file) {
         String unitString = file.nextLine();                       //Reads units for each ingredient as a full string
@@ -98,12 +97,6 @@ public class Recipe implements Parcelable {
      ***************************************************************************/
     public void isSame() {this.boolSame = true; }       // Sets private field boolSame to true
 
-    /****************************************************************************
-     * Method: resetBoolSame
-     * Description: This method reset the boolSame field of the recipe object after it has been set to true
-     ***************************************************************************/
-    public void resetBoolSame(){this.boolSame = false;}
-
     // All these methods are the getter methods that access the private fields of the Recipe Object
     public String getName() { return this.name;}
     public ArrayList<String> getUnits(){
@@ -115,6 +108,7 @@ public class Recipe implements Parcelable {
     public ArrayList<String> getSteps(){
         return this.steps;
     }
+    public ArrayList<IngClass> getMissingIngr() { return this.missingIngr;}
     public boolean getBoolSame() {
         return this.boolSame;
     }
@@ -145,12 +139,12 @@ public class Recipe implements Parcelable {
                 j++;                    // J is incremented for the loop
             }
             if (flag == 0) {            // If flag == 0, it means the ingredient in the recipe wasn't found
-                this.missingIngr.add(recipeHas.get(i).getID()); // So it is added to the missing ingredient ArrayList
+                this.missingIngr.add(recipeHas.get(i)); // So it is added to the missing ingredient ArrayList
             }
             i++;                        // I is increment for the loop
         }
         if (!missingIngr.isEmpty()) {       // If the missingIngredients ArrayList is NOT empty
-            ratioMissing = (Double.valueOf(this.missingIngr.size()/Double.valueOf(this.recipeHas.size())));
+            ratioMissing = Double.valueOf(this.missingIngr.size())/Double.valueOf(this.recipeHas.size());
         }   // The ratioMissing becomes the number missing ingredients over the number of ingredients in the recipe
         if(this.missingIngr.isEmpty() || ratioMissing <= 0.5){      // if the recipe is missing no ingredients or the is only missing <= half
             this.isSame();          // The recipe is valid and will be displayed.
