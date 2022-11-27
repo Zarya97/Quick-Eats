@@ -1,14 +1,11 @@
 package com.example.quickeats;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.content.res.AssetManager;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.Log;
@@ -17,25 +14,18 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
-import android.content.Context;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.io.File;
 import java.util.Scanner;
 import java.io.DataInputStream;
 
 public class MainActivity extends AppCompatActivity implements IngListener {
-
-
-    // adapter.arrayList_0 USED FOR COMPARE INGREDIENT METHOD
 
     RecyclerView recycler_view;
     IngAdapter adapter;
@@ -54,6 +44,7 @@ public class MainActivity extends AppCompatActivity implements IngListener {
 
         createRecipeObjects(recipeList); // Method creates objects of recipes and puts them in the Recipe ArrayList
 
+        recipeList.get(49).printRecipe();
         Button submit = findViewById(R.id.submit);
         submit.setOnClickListener(new View.OnClickListener() {      // Event Handler for submit button
             @Override
@@ -61,7 +52,7 @@ public class MainActivity extends AppCompatActivity implements IngListener {
                 if (!adapter.arrayList_0.isEmpty())     // If the ArrayList of selected ingredients is NOT empty
                     changeActivity();                   // The app will go to the ShowRecipesActivity
                 else {                                   // If it IS empty
-                    String message = new String("Nothing has been Selected");   // A message that tells the user they haven't selected anything
+                    String message = "Nothing has been Selected";  // A message that tells the user they haven't selected anything
                     ShowMessage(message);           // The message is displayed to teh user
                 }
             }
@@ -112,9 +103,7 @@ public class MainActivity extends AppCompatActivity implements IngListener {
         try {
             int count = 0;      // used to initialize ID of ingredient object
             while ((line = reader.readLine()) != null) {    // while file isn't empty
-                String name = line;         // Reads string from file as name variable
-                int ID = count;             // Count becomes ID for ingredient
-                IngClass ingredient = new IngClass(name, ID);   // creates ingredient object
+                IngClass ingredient = new IngClass(line, count);   // creates ingredient object
                 ingList.add(ingredient);    // Adds ingredient object to ingredient array
                 arrayList.add(line);        // Adds string used for ingredient name to a string
                                             // ArrayList used for check boxes.
@@ -124,16 +113,6 @@ public class MainActivity extends AppCompatActivity implements IngListener {
             Log.wtf("MyActivity", "Error reading ingredients", e);
             e.printStackTrace();
         }
-        // Debugging Array
-        /*arrayList.add("Tomato");
-        arrayList.add("Milk");
-        arrayList.add("Beef");
-        arrayList.add("Chicken");
-        arrayList.add("Sauce");
-        arrayList.add("Whatever");
-        arrayList.add("Powder");
-        arrayList.add("Mayo");
-        arrayList.add("Spice");*/
         return arrayList;
     }
 
