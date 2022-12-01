@@ -43,8 +43,7 @@ public class MainActivity extends AppCompatActivity implements IngListener {
         setRecyclerView();
 
         createRecipeObjects(recipeList); // Method creates objects of recipes and puts them in the Recipe ArrayList
-
-        recipeList.get(49).printRecipe();
+        
         Button submit = findViewById(R.id.submit);
         submit.setOnClickListener(new View.OnClickListener() {      // Event Handler for submit button
             @Override
@@ -53,7 +52,7 @@ public class MainActivity extends AppCompatActivity implements IngListener {
                     changeActivity();                   // The app will go to the ShowRecipesActivity
                 else {                                   // If it IS empty
                     String message = "Nothing has been Selected";  // A message that tells the user they haven't selected anything
-                    ShowMessage(message);           // The message is displayed to teh user
+                    ShowMessage(message);           // The message is displayed to the user
                 }
             }
         });
