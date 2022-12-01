@@ -75,7 +75,7 @@
             android:text="Go Back"
             android:textAlignment="viewStart"
             android:textColor="@color/black"
-            app:shapeAppearance="@style/ShapeAppearance.Material3.Corner.Medium" />
+            app:shapeAppearance="@style/ShapeAppearance.Material3.Corner.Medium"/>
 
         <Space
             android:layout_width="wrap_content"
